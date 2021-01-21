@@ -52,7 +52,8 @@ def full_deatailed_dictionary(df):
 def orgenaize_the_chnages(peptide_changes,binder_dict,file_desired_name):
     """gets a dictionary with detailes about all the random changes and dictionaey with data about 
        the mutanats , their %rank and hla and return notpad detailed with the base change,the identity of the 
-       peptide, and hla that it binds. we nedd to insert how we want to call to our file"""
+       peptide, and hla that it binds. we nedd to insert how we want to call to our file also returns a dictionary that map the changes and their influence of the all"""
+    pep={}  
     detailed_file=open("C:/Users/Elinor/Desktop/תואר שני/{}.txt".format(file_desired_name),"w+")
     for hla in binder_dict.keys(): # for each hla in weak binders
         for peptide_rank_tup in binder_dict[hla]: #for each tuple of peptide rank in dict 
@@ -64,6 +65,27 @@ def orgenaize_the_chnages(peptide_changes,binder_dict,file_desired_name):
                 .format(str(base),str(peptide_changes[peptide_rank_tup[0]]),peptide_rank_tup[1],hla)
                print(what_happend)
                detailed_file.write(what_happend+"\n")
+    if peptide_changes[peptide_rank_tup[0]] not in pep.keys():
+        pep[peptide_changes[peptide_rank_tup[0]]]=[]
+        pep[peptide_changes[peptide_rank_tup[0]]].append(hla)
+    pep[peptide_changes[peptide_rank_tup[0]]].append(hla)   
+    return pep       
+           
+    
+    
+def finding_duplicants(full_detaailed_dictionary):
+    """gets the full detailed dictionary (example shape- 'HLA-B8301': [('CPTINCERY', 0.7)) and return to list of 
+       duplicants and the unike mutation , duplicants are the peptide that bind more than one allel""" 
+    unike_peptides=[]
+    dupli_peptides=[]
+    for tup in full_detaailed_dictionary.values():
+        for i in range(len(tup)):
+            if tup[i][0] not in unike_peptides:
+                unike_peptides.append(tup[i][0])
+            else:
+                 dupli_peptides.append(tup[i][0])    
+    dupli_peptides= list(set(dupli_peptides)) 
+    return [unike_peptides,dupli_peptides]
     
        
          
