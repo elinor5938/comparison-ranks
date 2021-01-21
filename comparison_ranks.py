@@ -76,16 +76,16 @@ def orgenaize_the_chnages(peptide_changes,binder_dict,file_desired_name):
 def finding_duplicants(full_detaailed_dictionary):
     """gets the full detailed dictionary (example shape- 'HLA-B8301': [('CPTINCERY', 0.7)) and return to list of 
        duplicants and the unike mutation , duplicants are the peptide that bind more than one allel""" 
-    unike_peptides=[]
+    unique_peptides=[]
     dupli_peptides=[]
     for tup in full_detaailed_dictionary.values():
         for i in range(len(tup)):
-            if tup[i][0] not in unike_peptides:
-                unike_peptides.append(tup[i][0])
+            if tup[i][0] not in unique_peptides:
+                unique_peptides.append(tup[i][0])
             else:
                  dupli_peptides.append(tup[i][0])    
     dupli_peptides= list(set(dupli_peptides)) 
-    return [unike_peptides,dupli_peptides]
+    return [unique_peptides,dupli_peptides]
     
        
          
